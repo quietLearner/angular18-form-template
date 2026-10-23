@@ -1,13 +1,26 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+
+import { LoginComponent } from './auth/login/login.component';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [LoginComponent],
 })
 export class AppComponent {
-  title = 'angular18-form-template';
+  // "Which injector should I use to find or create this service?"
+
+  // It needs to know:
+  // "Which injector should I use to find or create this service?"
+  // When Angular has that information available to the currently executing code, we say the code is running inside an injection context.
+  // Think of an injection context as Angular temporarily saying:
+  // "I'm creating this component. If you need any dependencies, ask me now. I know which injector to use."
+
+  private userService = inject(UserService);
+
+  constructor() {
+    console.log(this.userService.getUser());
+  }
 }
